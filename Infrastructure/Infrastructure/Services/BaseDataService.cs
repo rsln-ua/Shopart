@@ -1,3 +1,4 @@
+using AutoMapper;
 using Infrastructure.Services.Interfaces;
 
 namespace Infrastructure.Services;
@@ -10,12 +11,15 @@ public abstract class BaseDataService<T>
 
     protected BaseDataService(
         IDbContextWrapper<T> dbContextWrapper,
-        ILogger<BaseDataService<T>> logger)
+        ILogger<BaseDataService<T>> logger,
+        IMapper mapper)
     {
         _dbContextWrapper = dbContextWrapper;
         _logger = logger;
+        Mapper = mapper;
     }
 
+    protected IMapper Mapper { get; set; }
     protected Task ExecuteSafeAsync(Func<Task> action, CancellationToken cancellationToken = default) => ExecuteSafeAsync(token => action(), cancellationToken);
 
     protected Task<TResult> ExecuteSafeAsync<TResult>(Func<Task<TResult>> action, CancellationToken cancellationToken = default) => ExecuteSafeAsync(token => action(), cancellationToken);

@@ -12,8 +12,6 @@ public class VehicleEntity
     public int ModelId { get; set; }
     public ModelEntity Model { get; set; } = null!;
 
-    [MaxLength(10)]
-    [MinLength(3)]
     public string Vin { get; set; } = null!;
 
     public int Year { get; set; }
@@ -23,4 +21,8 @@ public class VehicleEntity
     public float EngineSizeL { get; set; }
 
     public float Mileage { get; set; }
+
+    // TODO: add images support;
+    // public List<int> ImagesIds { get; set; } = null!;
+    // public List<ImageEntity> Images { get; set; } = null!;
 }

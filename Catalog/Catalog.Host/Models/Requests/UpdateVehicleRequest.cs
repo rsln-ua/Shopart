@@ -1,12 +1,12 @@
-namespace Catalog.Host.Models.Dtos;
+namespace Catalog.Host.Models.Requests;
 
-public class VehicleDto
+public class UpdateVehicleRequest
 {
     public int Id { get; set; }
 
-    public MakeDto Make { get; set; } = null!;
+    public int MakeId { get; set; }
 
-    public ModelDto Model { get; set; } = null!;
+    public int ModelId { get; set; }
 
     public string Vin { get; set; } = null!;
 
@@ -17,6 +17,4 @@ public class VehicleDto
     public float EngineSizeL { get; set; }
 
     public float Mileage { get; set; }
-
-    // public List<string> Images { get; set; } = null!;
 }
