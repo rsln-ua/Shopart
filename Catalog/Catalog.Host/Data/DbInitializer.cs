@@ -8,67 +8,53 @@ public static class DbInitializer
     {
         await context.Database.EnsureCreatedAsync();
 
-        if (!context.CatalogBrands.Any())
+        if (!context.MakeEntities.Any())
         {
-            await context.CatalogBrands.AddRangeAsync(GetPreconfiguredCatalogBrands());
+            await context.MakeEntities.AddRangeAsync(GetCatalogMakes());
 
             await context.SaveChangesAsync();
         }
 
-        if (!context.CatalogTypes.Any())
+        if (!context.ModelEntities.Any())
         {
-            await context.CatalogTypes.AddRangeAsync(GetPreconfiguredCatalogTypes());
+            await context.ModelEntities.AddRangeAsync(GetCatalogModels());
 
             await context.SaveChangesAsync();
         }
 
-        if (!context.CatalogItems.Any())
+        if (!context.VehicleEntities.Any())
         {
-            await context.CatalogItems.AddRangeAsync(GetPreconfiguredItems());
+            await context.VehicleEntities.AddRangeAsync(GetCatalogVehicles());
 
             await context.SaveChangesAsync();
         }
     }
 
-    private static IEnumerable<CatalogBrand> GetPreconfiguredCatalogBrands()
+    private static IEnumerable<MakeEntity> GetCatalogMakes()
     {
-        return new List<CatalogBrand>()
+        return new List<MakeEntity>()
         {
-            new CatalogBrand() { Brand = "Azure" },
-            new CatalogBrand() { Brand = ".NET" },
-            new CatalogBrand() { Brand = "Visual Studio" },
-            new CatalogBrand() { Brand = "SQL Server" },
-            new CatalogBrand() { Brand = "Other" }
+            new MakeEntity() { Name = "Toyota" },
+            new MakeEntity() { Name = "Honda" },
         };
     }
 
-    private static IEnumerable<CatalogType> GetPreconfiguredCatalogTypes()
+    private static IEnumerable<ModelEntity> GetCatalogModels()
     {
-        return new List<CatalogType>()
+        return new List<ModelEntity>()
         {
-            new CatalogType() { Type = "Mug" },
-            new CatalogType() { Type = "T-Shirt" },
-            new CatalogType() { Type = "Sheet" },
-            new CatalogType() { Type = "USB Memory Stick" }
+            new ModelEntity() { Name = "Camry", MakeId = 0 },
+            new ModelEntity() { Name = "Corolla", MakeId = 0 },
+            new ModelEntity() { Name = "Civic", MakeId = 1 },
+            new ModelEntity() { Name = "Accord", MakeId = 1 },
         };
     }
 
-    private static IEnumerable<CatalogItem> GetPreconfiguredItems()
+    private static IEnumerable<VehicleEntity> GetCatalogVehicles()
     {
-        return new List<CatalogItem>()
+        return new List<VehicleEntity>()
         {
-            new CatalogItem { CatalogTypeId = 2, CatalogBrandId = 2, AvailableStock = 100, Description = ".NET Bot Black Hoodie", Name = ".NET Bot Black Hoodie", Price = 19.5M, PictureFileName = "1.png" },
-            new CatalogItem { CatalogTypeId = 1, CatalogBrandId = 2, AvailableStock = 100, Description = ".NET Black & White Mug", Name = ".NET Black & White Mug", Price = 8.50M, PictureFileName = "2.png" },
-            new CatalogItem { CatalogTypeId = 2, CatalogBrandId = 5, AvailableStock = 100, Description = "Prism White T-Shirt", Name = "Prism White T-Shirt", Price = 12, PictureFileName = "3.png" },
-            new CatalogItem { CatalogTypeId = 2, CatalogBrandId = 2, AvailableStock = 100, Description = ".NET Foundation T-shirt", Name = ".NET Foundation T-shirt", Price = 12, PictureFileName = "4.png" },
-            new CatalogItem { CatalogTypeId = 3, CatalogBrandId = 5, AvailableStock = 100, Description = "Roslyn Red Sheet", Name = "Roslyn Red Sheet", Price = 8.5M, PictureFileName = "5.png" },
-            new CatalogItem { CatalogTypeId = 2, CatalogBrandId = 2, AvailableStock = 100, Description = ".NET Blue Hoodie", Name = ".NET Blue Hoodie", Price = 12, PictureFileName = "6.png" },
-            new CatalogItem { CatalogTypeId = 2, CatalogBrandId = 5, AvailableStock = 100, Description = "Roslyn Red T-Shirt", Name = "Roslyn Red T-Shirt", Price = 12, PictureFileName = "7.png" },
-            new CatalogItem { CatalogTypeId = 2, CatalogBrandId = 5, AvailableStock = 100, Description = "Kudu Purple Hoodie", Name = "Kudu Purple Hoodie", Price = 8.5M, PictureFileName = "8.png" },
-            new CatalogItem { CatalogTypeId = 1, CatalogBrandId = 5, AvailableStock = 100, Description = "Cup<T> White Mug", Name = "Cup<T> White Mug", Price = 12, PictureFileName = "9.png" },
-            new CatalogItem { CatalogTypeId = 3, CatalogBrandId = 2, AvailableStock = 100, Description = ".NET Foundation Sheet", Name = ".NET Foundation Sheet", Price = 12, PictureFileName = "10.png" },
-            new CatalogItem { CatalogTypeId = 3, CatalogBrandId = 2, AvailableStock = 100, Description = "Cup<T> Sheet", Name = "Cup<T> Sheet", Price = 8.5M, PictureFileName = "11.png" },
-            new CatalogItem { CatalogTypeId = 2, CatalogBrandId = 5, AvailableStock = 100, Description = "Prism White TShirt", Name = "Prism White TShirt", Price = 12, PictureFileName = "12.png" },
+            new VehicleEntity { MakeId = 1, ModelId = 2, Cylinders = 4, Vin = "4Y1SL65848Z411439", Year = 2016, Mileage = 66000, EngineSizeL = 1.5f },
         };
     }
 }

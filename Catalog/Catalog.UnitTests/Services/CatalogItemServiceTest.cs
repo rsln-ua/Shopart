@@ -5,13 +5,13 @@ namespace Catalog.UnitTests.Services;
 
 public class CatalogItemServiceTest
 {
-    private readonly ICatalogItemService _catalogService;
+    private readonly IVehicleService _catalogService;
 
-    private readonly Mock<ICatalogItemRepository> _catalogItemRepository;
+    private readonly Mock<IVehicleRepository> _catalogItemRepository;
     private readonly Mock<IDbContextWrapper<ApplicationDbContext>> _dbContextWrapper;
     private readonly Mock<ILogger<CatalogService>> _logger;
 
-    private readonly CatalogItem _testItem = new CatalogItem()
+    private readonly VehicleEntity _testItem = new VehicleEntity()
     {
         Name = "Name",
         Description = "Description",
@@ -24,14 +24,14 @@ public class CatalogItemServiceTest
 
     public CatalogItemServiceTest()
     {
-        _catalogItemRepository = new Mock<ICatalogItemRepository>();
+        _catalogItemRepository = new Mock<IVehicleRepository>();
         _dbContextWrapper = new Mock<IDbContextWrapper<ApplicationDbContext>>();
         _logger = new Mock<ILogger<CatalogService>>();
 
         var dbContextTransaction = new Mock<IDbContextTransaction>();
         _dbContextWrapper.Setup(s => s.BeginTransactionAsync(It.IsAny<CancellationToken>())).ReturnsAsync(dbContextTransaction.Object);
 
-        _catalogService = new CatalogItemService(_dbContextWrapper.Object, _logger.Object, _catalogItemRepository.Object);
+        _catalogService = new VehicleService(_dbContextWrapper.Object, _logger.Object, _catalogItemRepository.Object);
     }
 
     [Fact]

@@ -54,9 +54,8 @@ builder.Services.AddAuthorization(configuration);
 
 builder.Services.AddAutoMapper(typeof(Program));
 
-builder.Services.AddTransient<ICatalogItemRepository, CatalogItemRepository>();
-builder.Services.AddTransient<ICatalogService, CatalogService>();
-builder.Services.AddTransient<ICatalogItemService, CatalogItemService>();
+builder.Services.AddTransient<IVehicleRepository, VehicleRepository>();
+builder.Services.AddTransient<IVehicleService, VehicleService>();
 
 builder.Services.AddDbContextFactory<ApplicationDbContext>(opts => opts.UseNpgsql(configuration["ConnectionString"]));
 builder.Services.AddScoped<IDbContextWrapper<ApplicationDbContext>, DbContextWrapper<ApplicationDbContext>>();

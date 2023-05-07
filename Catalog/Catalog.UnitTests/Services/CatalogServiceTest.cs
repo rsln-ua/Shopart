@@ -9,14 +9,14 @@ public class CatalogServiceTest
 {
     private readonly ICatalogService _catalogService;
 
-    private readonly Mock<ICatalogItemRepository> _catalogItemRepository;
+    private readonly Mock<IVehicleRepository> _catalogItemRepository;
     private readonly Mock<IMapper> _mapper;
     private readonly Mock<IDbContextWrapper<ApplicationDbContext>> _dbContextWrapper;
     private readonly Mock<ILogger<CatalogService>> _logger;
 
     public CatalogServiceTest()
     {
-        _catalogItemRepository = new Mock<ICatalogItemRepository>();
+        _catalogItemRepository = new Mock<IVehicleRepository>();
         _mapper = new Mock<IMapper>();
         _dbContextWrapper = new Mock<IDbContextWrapper<ApplicationDbContext>>();
         _logger = new Mock<ILogger<CatalogService>>();
@@ -35,11 +35,11 @@ public class CatalogServiceTest
         var testPageSize = 4;
         var testTotalCount = 12;
 
-        var pagingPaginatedItemsSuccess = new PaginatedItems<CatalogItem>()
+        var pagingPaginatedItemsSuccess = new PaginatedItems<VehicleEntity>()
         {
-            Data = new List<CatalogItem>()
+            Data = new List<VehicleEntity>()
             {
-                new CatalogItem()
+                new VehicleEntity()
                 {
                     Name = "TestName",
                 },
@@ -47,12 +47,12 @@ public class CatalogServiceTest
             TotalCount = testTotalCount,
         };
 
-        var catalogItemSuccess = new CatalogItem()
+        var catalogItemSuccess = new VehicleEntity()
         {
             Name = "TestName"
         };
 
-        var catalogItemDtoSuccess = new CatalogItemDto()
+        var catalogItemDtoSuccess = new VehicleDto()
         {
             Name = "TestName"
         };
@@ -63,8 +63,8 @@ public class CatalogServiceTest
             It.IsAny<int?>(),
             It.IsAny<int?>())).ReturnsAsync(pagingPaginatedItemsSuccess);
 
-        _mapper.Setup(s => s.Map<CatalogItemDto>(
-            It.Is<CatalogItem>(i => i.Equals(catalogItemSuccess)))).Returns(catalogItemDtoSuccess);
+        _mapper.Setup(s => s.Map<VehicleDto>(
+            It.Is<VehicleEntity>(i => i.Equals(catalogItemSuccess)))).Returns(catalogItemDtoSuccess);
 
         // act
         var result = await _catalogService.GetCatalogItemsAsync(testPageSize, testPageIndex, null);
@@ -83,7 +83,7 @@ public class CatalogServiceTest
         // arrange
         var testPageIndex = 1000;
         var testPageSize = 10000;
-        PaginatedItems<CatalogItem> item = null!;
+        PaginatedItems<VehicleEntity> item = null!;
 
         _catalogItemRepository.Setup(s => s.GetByPageAsync(
             It.Is<int>(i => i == testPageIndex),
