@@ -1,11 +1,14 @@
+using AutoMapper;
+
 namespace Infrastructure.UnitTests.Mocks;
 
 public class MockService : BaseDataService<MockDbContext>
 {
     public MockService(
         IDbContextWrapper<MockDbContext> dbContextWrapper,
-        ILogger<MockService> logger)
-        : base(dbContextWrapper, logger)
+        ILogger<MockService> logger,
+        IMapper mapper)
+        : base(dbContextWrapper, logger, mapper)
     {
     }
 
