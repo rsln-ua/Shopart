@@ -65,7 +65,7 @@ namespace Basket.UnitTests.Services
                 .ReturnsAsync(false);
 
             // act
-            await _cacheService.AddOrUpdateAsync(testEntity.UserId, testEntity.Data);
+            await _cacheService.Set(testEntity.UserId, testEntity.Data);
 
             // assert
             _logger.Verify(
@@ -98,7 +98,7 @@ namespace Basket.UnitTests.Services
                 .ReturnsAsync(true);
 
             // act
-            await _cacheService.AddOrUpdateAsync(testEntity.UserId, testEntity.Data);
+            await _cacheService.Set(testEntity.UserId, testEntity.Data);
 
             // assert
             _logger.Verify(
@@ -131,8 +131,8 @@ namespace Basket.UnitTests.Services
                 .ReturnsAsync(true);
 
             // act
-            await _cacheService.AddOrUpdateAsync(testEntity.UserId, testEntity.Data);
-            await _cacheService.AddOrUpdateAsync(testEntity.UserId, testEntity.Data);
+            await _cacheService.Set(testEntity.UserId, testEntity.Data);
+            await _cacheService.Set(testEntity.UserId, testEntity.Data);
 
             // assert
             _logger.Verify(
@@ -160,7 +160,7 @@ namespace Basket.UnitTests.Services
                 .ReturnsAsync(data);
 
             // act
-            var result = await _cacheService.GetAsync<string>(data);
+            var result = await _cacheService.Get<string>(data);
 
             // assert
             result.Should().Be(data);
@@ -173,7 +173,7 @@ namespace Basket.UnitTests.Services
             var testName = "testName";
 
             // act
-            var result = await _cacheService.GetAsync<string>(testName);
+            var result = await _cacheService.Get<string>(testName);
 
             // assert
             result.Should().BeNull();

@@ -53,4 +53,11 @@ public class VehicleController : ControllerBase
         var result = await _vehicleService.Get(id);
         return Ok(new GetItemResponse<VehicleDto?>() { Data = result });
     }
+
+    [HttpPost]
+    public async Task<IActionResult> GetItemInfo(GetItemRequest<int> request)
+    {
+        var result = await _vehicleService.GetItemInfo(request.Id);
+        return Ok(new GetItemResponse<BasketItemDto?>() { Data = result });
+    }
 }

@@ -35,4 +35,10 @@ public class VehicleService : BaseDataService<ApplicationDbContext>, IVehicleSer
         var entity = await _vehicleRepository.Get(id);
         return Mapper.Map<VehicleDto>(entity);
     }
+
+    public async Task<BasketItemDto?> GetItemInfo(int id)
+    {
+        var entity = await _vehicleRepository.Get(id);
+        return Mapper.Map<BasketItemDto>(entity);
+    }
 }

@@ -23,27 +23,26 @@ namespace Basket.Host.Services
             _config = config.Value;
         }
 
-        public Task AddOrUpdateAsync<T>(string key, T value) 
-        => AddOrUpdateInternalAsync(key, value);
+        public Task Set<T>(string key, T value)
+            => AddOrUpdateInternal(key, value);
 
-        public async Task<T> GetAsync<T>(string key)
+        public async Task<T> Get<T>(string key)
         {
             var redis = GetRedisDatabase();
 
             var cacheKey = GetItemCacheKey(key);
 
             var serialized = await redis.StringGetAsync(cacheKey);
-            
-            return serialized.HasValue ? 
-                _jsonSerializer.Deserialize<T>(serialized.ToString()) 
-                : default(T)!;
+
+            return serialized.HasValue
+                ? _jsonSerializer.Deserialize<T>(serialized.ToString())
+                : default(T) !;
         }
 
         private string GetItemCacheKey(string userId) =>
             $"{userId}";
 
-        private async Task AddOrUpdateInternalAsync<T>(string key, T value,
-            IDatabase redis = null!, TimeSpan? expiry = null)
+        private async Task AddOrUpdateInternal<T>(string key, T value, IDatabase redis = null!, TimeSpan? expiry = null)
         {
             redis = redis ?? GetRedisDatabase();
             expiry = expiry ?? _config.CacheTimeout;

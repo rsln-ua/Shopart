@@ -17,6 +17,7 @@ public class VehicleDto
     public float EngineSizeL { get; set; }
 
     public float Mileage { get; set; }
+    public decimal Price { get; set; }
 
     // public List<string> Images { get; set; } = null!;
 }

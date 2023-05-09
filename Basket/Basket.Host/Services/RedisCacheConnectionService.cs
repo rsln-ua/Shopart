@@ -13,9 +13,11 @@ namespace Basket.Host.Services
             IOptions<RedisConfig> config)
         {
             var redisConfigurationOptions = ConfigurationOptions.Parse(config.Value.Host);
+
+            ConnectionMultiplexer ValueFactory() => ConnectionMultiplexer.Connect(redisConfigurationOptions);
+
             _connectionLazy =
-                new Lazy<ConnectionMultiplexer>(() 
-                    => ConnectionMultiplexer.Connect(redisConfigurationOptions));
+                new Lazy<ConnectionMultiplexer>(ValueFactory);
         }
 
         public IConnectionMultiplexer Connection => _connectionLazy.Value;

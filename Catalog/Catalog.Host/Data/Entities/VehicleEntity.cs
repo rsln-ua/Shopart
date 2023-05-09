@@ -21,6 +21,7 @@ public class VehicleEntity
     public float EngineSizeL { get; set; }
 
     public float Mileage { get; set; }
+    public decimal Price { get; set; }
 
     // TODO: add images support;
     // public List<int> ImagesIds { get; set; } = null!;

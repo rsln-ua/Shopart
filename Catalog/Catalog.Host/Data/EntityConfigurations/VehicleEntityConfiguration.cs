@@ -26,6 +26,8 @@ public class VehicleEntityConfiguration : IEntityTypeConfiguration<VehicleEntity
 
         builder.Property(i => i.Mileage).IsRequired();
 
+        builder.Property(i => i.Price).IsRequired();
+
         builder.HasOne(i => i.Make).WithMany().HasForeignKey(i => i.MakeId);
 
         builder.HasOne(i => i.Model).WithMany().HasForeignKey(i => i.ModelId);

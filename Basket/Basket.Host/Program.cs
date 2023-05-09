@@ -9,10 +9,7 @@ var configuration = GetConfiguration();
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers(options =>
-    {
-        options.Filters.Add(typeof(HttpGlobalExceptionFilter));
-    })
+builder.Services.AddControllers(options => { options.Filters.Add(typeof(HttpGlobalExceptionFilter)); })
     .AddJsonOptions(options => options.JsonSerializerOptions.WriteIndented = true);
 
 builder.Services.AddSwaggerGen(options =>
@@ -46,11 +43,15 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.AddConfiguration();
+
+builder.Services.Configure<BasketConfig>(configuration);
 builder.Services.Configure<RedisConfig>(
     builder.Configuration.GetSection("Redis"));
 
 builder.Services.AddAuthorization(configuration);
 
+builder.Services.AddHttpClient();
+builder.Services.AddTransient<IInternalHttpClientService, InternalHttpClientService>();
 builder.Services.AddTransient<IJsonSerializer, JsonSerializer>();
 builder.Services.AddTransient<IRedisCacheConnectionService, RedisCacheConnectionService>();
 builder.Services.AddTransient<ICacheService, CacheService>();

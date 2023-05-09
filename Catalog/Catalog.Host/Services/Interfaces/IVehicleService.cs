@@ -8,4 +8,5 @@ public interface IVehicleService
     Task<int?> Update(int id, int makeId, int modelId, string vin, int year, int cylinders, float engineSizeL, float mileage);
     Task<int?> Remove(int id);
     Task<VehicleDto?> Get(int id);
+    Task<BasketItemDto?> GetItemInfo(int id);
 }

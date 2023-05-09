@@ -43,10 +43,10 @@ public static class DbInitializer
     {
         return new List<ModelEntity>()
         {
-            new ModelEntity() { Name = "Camry", MakeId = 0 },
-            new ModelEntity() { Name = "Corolla", MakeId = 0 },
-            new ModelEntity() { Name = "Civic", MakeId = 1 },
-            new ModelEntity() { Name = "Accord", MakeId = 1 },
+            new ModelEntity() { Name = "Camry", MakeId = 1 },
+            new ModelEntity() { Name = "Corolla", MakeId = 1 },
+            new ModelEntity() { Name = "Civic", MakeId = 2 },
+            new ModelEntity() { Name = "Accord", MakeId = 2 },
         };
     }
 
@@ -54,7 +54,7 @@ public static class DbInitializer
     {
         return new List<VehicleEntity>()
         {
-            new VehicleEntity { MakeId = 1, ModelId = 2, Cylinders = 4, Vin = "4Y1SL65848Z411439", Year = 2016, Mileage = 66000, EngineSizeL = 1.5f },
+            new VehicleEntity { MakeId = 1, ModelId = 2, Cylinders = 4, Vin = "4Y1SL65848Z411439", Year = 2016, Mileage = 66000, EngineSizeL = 1.5f, Price = 10040m },
         };
     }
 }
