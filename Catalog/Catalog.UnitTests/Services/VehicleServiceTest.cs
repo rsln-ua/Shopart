@@ -15,6 +15,7 @@ public class CatalogItemServiceTest
 
     private readonly VehicleEntity _testVehicleEntity;
     private readonly VehicleDto _testVehicleDto;
+    private readonly BasketItemDto _basketItemDto;
 
     public CatalogItemServiceTest()
     {
@@ -26,6 +27,8 @@ public class CatalogItemServiceTest
         _testVehicleEntity.Id = 1;
         _testVehicleDto = new Mock<VehicleDto>().Object;
         _testVehicleDto.Id = 1;
+        _basketItemDto = new Mock<BasketItemDto>().Object;
+        _basketItemDto.Id = 1;
 
         var dbContextTransaction = new Mock<IDbContextTransaction>();
         _dbContextWrapper.Setup(s => s.BeginTransactionAsync(It.IsAny<CancellationToken>())).ReturnsAsync(dbContextTransaction.Object);
@@ -184,7 +187,6 @@ public class CatalogItemServiceTest
         result?.Id.Should().Be(testResult);
     }
 
-    // TODO: fix the test, fix mapper;
     [Fact]
     public async Task Get_Failed()
     {
@@ -195,11 +197,46 @@ public class CatalogItemServiceTest
         _catalogItemRepository.Setup(s => s.Get(
             It.Is<int>(el => el == testId))).ReturnsAsync(badResponse);
 
-        _mapper.Setup(s => s.Map<VehicleDto>(
-            It.Is<VehicleEntity>(i => i.Equals(badResponse)))).Returns((VehicleDto)null!);
-
         // act
         var result = await _catalogService.Get(testId);
+
+        // assert
+        result.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task GetItemInfo_Success()
+    {
+        // arrange
+        var testId = 1;
+        var testResult = testId;
+
+        _catalogItemRepository.Setup(s => s.Get(
+            It.Is<int>(el => el == testId))).ReturnsAsync(_testVehicleEntity);
+
+        _mapper.Setup(s => s.Map<BasketItemDto>(
+            It.Is<VehicleEntity>(i => i.Equals(_testVehicleEntity)))).Returns(_basketItemDto);
+
+        // act
+        var result = await _catalogService.GetItemInfo(testId);
+
+        // assert
+        result.Should().NotBeNull();
+        result?.Id.Should().Be(testResult);
+    }
+
+    [Fact]
+    public async Task GetItemInfo_Failed()
+    {
+        // arrange
+        var testId = 1;
+        VehicleEntity? badResponse = null;
+
+        _catalogItemRepository.Setup(s => s.Get(
+            It.Is<int>(el => el == testId))).ReturnsAsync(badResponse);
+
+        // act
+        var result = await _catalogService.GetItemInfo(testId);
 
         // assert
         result.Should().BeNull();

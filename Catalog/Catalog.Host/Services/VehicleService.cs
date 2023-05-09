@@ -33,12 +33,24 @@ public class VehicleService : BaseDataService<ApplicationDbContext>, IVehicleSer
     public async Task<VehicleDto?> Get(int id)
     {
         var entity = await _vehicleRepository.Get(id);
+
+        if (entity == null)
+        {
+            return null;
+        }
+
         return Mapper.Map<VehicleDto>(entity);
     }
 
     public async Task<BasketItemDto?> GetItemInfo(int id)
     {
         var entity = await _vehicleRepository.Get(id);
+
+        if (entity == null)
+        {
+            return null;
+        }
+
         return Mapper.Map<BasketItemDto>(entity);
     }
 }
