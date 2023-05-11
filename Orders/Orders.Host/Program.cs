@@ -1,12 +1,12 @@
-using Catalog.Host.Configurations;
-using Catalog.Host.Data;
-using Catalog.Host.Repositories;
-using Catalog.Host.Repositories.Interfaces;
-using Catalog.Host.Services;
-using Catalog.Host.Services.Interfaces;
 using Infrastructure.Extensions;
 using Infrastructure.Filters;
 using Microsoft.OpenApi.Models;
+using Orders.Host.Configurations;
+using Orders.Host.Data;
+using Orders.Host.Repositories;
+using Orders.Host.Repositories.Interfaces;
+using Orders.Host.Services;
+using Orders.Host.Services.Interfaces;
 
 var configuration = GetConfiguration();
 
@@ -19,9 +19,9 @@ builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
     {
-        Title = "eShop- Catalog HTTP API",
+        Title = "eShop- Orders HTTP API",
         Version = "v1",
-        Description = "The Catalog Service HTTP API"
+        Description = "The Orders Service HTTP API"
     });
 
     var authority = configuration["Authorization:Authority"];
@@ -47,14 +47,18 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.AddConfiguration();
-builder.Services.Configure<CatalogConfig>(configuration);
+builder.Services.Configure<OrdersConfig>(configuration);
 
 builder.Services.AddAuthorization(configuration);
 
 builder.Services.AddAutoMapper(typeof(Program));
 
-builder.Services.AddTransient<IVehicleRepository, VehicleRepository>();
-builder.Services.AddTransient<IVehicleService, VehicleService>();
+builder.Services.AddHttpClient();
+builder.Services.AddTransient<IInternalHttpClientService, InternalHttpClientService>();
+builder.Services.AddTransient<IOrderRepository, OrderRepository>();
+builder.Services.AddTransient<IItemInfoRepository, ItemInfoRepository>();
+builder.Services.AddTransient<IOrdersService, OrdersService>();
+builder.Services.AddTransient<IItemInfoService, ItemInfoService>();
 
 builder.Services.AddDbContextFactory<ApplicationDbContext>(opts => opts.UseNpgsql(configuration["ConnectionString"]));
 builder.Services.AddScoped<IDbContextWrapper<ApplicationDbContext>, DbContextWrapper<ApplicationDbContext>>();
@@ -75,9 +79,9 @@ var app = builder.Build();
 app.UseSwagger()
     .UseSwaggerUI(setup =>
     {
-        setup.SwaggerEndpoint($"{configuration["PathBase"]}/swagger/v1/swagger.json", "Catalog.API V1");
+        setup.SwaggerEndpoint($"{configuration["PathBase"]}/swagger/v1/swagger.json", "Orders.API V1");
         setup.OAuthClientId("catalogswaggerui");
-        setup.OAuthAppName("Catalog Swagger UI");
+        setup.OAuthAppName("Orders Swagger UI");
     });
 
 app.UseRouting();

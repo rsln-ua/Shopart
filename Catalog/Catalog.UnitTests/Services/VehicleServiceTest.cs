@@ -4,7 +4,7 @@ using Catalog.Host.Models.Dtos;
 
 namespace Catalog.UnitTests.Services;
 
-public class CatalogItemServiceTest
+public class VehicleServiceTest
 {
     private readonly IVehicleService _catalogService;
 
@@ -17,7 +17,7 @@ public class CatalogItemServiceTest
     private readonly VehicleDto _testVehicleDto;
     private readonly BasketItemDto _basketItemDto;
 
-    public CatalogItemServiceTest()
+    public VehicleServiceTest()
     {
         _catalogItemRepository = new Mock<IVehicleRepository>();
         _dbContextWrapper = new Mock<IDbContextWrapper<ApplicationDbContext>>();
